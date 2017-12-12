@@ -1,0 +1,15 @@
+topic-01：安装ifconfig命令：
+	a.首先我们看centos是否连上网络，
+		输入ping linux.inson.top #如果响应成功说明连上了网络，否则请看笔者前面讲的打开网络的方法，这里不再赘述了
+	
+	注意：在windows中查看ip地址是ipconfig，而在linux中是ifconfig，不要输错了命令
+	b.在命令行输入ifconfig，出现command not found 说明ifconfig不能用那是因为centos默认只包含一些基本命令,
+		我们通过yum来安装ifconfig ：
+		yum search ifconfig #查找ifconfig是属于那个包下的，我们在进行安装对应的包
+		打印出 net-tools.x86_64 : Basic networking tools,说明ifconfig在net-tools.x86_64包中
+		yum -y install net-tools.x86_64 #利用yum安装net-tools.x86_64包，-y代表直接确认安装
+	c.安装完之后，我们输入ifconfig，可以使用了
+
+topic-02:安装wget命令，wget命令是用来下载文件的，非常好用，支持断点续传
+	a.直接输入，yum -y install wget
+

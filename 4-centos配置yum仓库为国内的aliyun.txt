@@ -1,0 +1,18 @@
+配置本地yum为国内的yum源，centos默认的yum源是国外的，配置成国内的yum源访问更快
+topic-01:备份本地的yum源：
+	mv /etc/yum.repos.d/CentOS-Base.repo /etc/yum.repos.d/CentOS-Base.repo_bak
+
+topic-02:获取阿里的yum源配置文件(这里介绍的是centos7的yum源地址，其它版本地址，请自行百度)：
+	wget -O /etc/yum.repos.d/CentOS-Base.repo http://mirrors.aliyun.com/repo/Centos-7.repo
+
+	我们可以用ls查看是否下载到了指定的目录下
+	ls /etc/yum.repos.d/ #我们看到CentOS-Base.repo文件则是下载成功
+
+topic-03:更新cache
+	yum makecache
+
+topic-04:更新yum仓库
+	yum -y update
+
+至此，本地的yum仓库配置完成，linux是不是很简单，赶快试一下吧！
+
