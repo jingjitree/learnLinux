@@ -1,18 +1,18 @@
-ÅäÖÃ±¾µØyumÎª¹úÄÚµÄyumÔ´£¬centosÄ¬ÈÏµÄyumÔ´ÊÇ¹úÍâµÄ£¬ÅäÖÃ³É¹úÄÚµÄyumÔ´·ÃÎÊ¸ü¿ì
-topic-01:±¸·İ±¾µØµÄyumÔ´£º
+é…ç½®æœ¬åœ°yumä¸ºå›½å†…çš„yumæºï¼Œcentosé»˜è®¤çš„yumæºæ˜¯å›½å¤–çš„ï¼Œé…ç½®æˆå›½å†…çš„yumæºè®¿é—®æ›´å¿«
+topic-01:å¤‡ä»½æœ¬åœ°çš„yumæºï¼š
 	mv /etc/yum.repos.d/CentOS-Base.repo /etc/yum.repos.d/CentOS-Base.repo_bak
 
-topic-02:»ñÈ¡°¢ÀïµÄyumÔ´ÅäÖÃÎÄ¼ş(ÕâÀï½éÉÜµÄÊÇcentos7µÄyumÔ´µØÖ·£¬ÆäËü°æ±¾µØÖ·£¬Çë×ÔĞĞ°Ù¶È)£º
+topic-02:è·å–é˜¿é‡Œçš„yumæºé…ç½®æ–‡ä»¶(è¿™é‡Œä»‹ç»çš„æ˜¯centos7çš„yumæºåœ°å€ï¼Œå…¶å®ƒç‰ˆæœ¬åœ°å€ï¼Œè¯·è‡ªè¡Œç™¾åº¦)ï¼š
 	wget -O /etc/yum.repos.d/CentOS-Base.repo http://mirrors.aliyun.com/repo/Centos-7.repo
 
-	ÎÒÃÇ¿ÉÒÔÓÃls²é¿´ÊÇ·ñÏÂÔØµ½ÁËÖ¸¶¨µÄÄ¿Â¼ÏÂ
-	ls /etc/yum.repos.d/ #ÎÒÃÇ¿´µ½CentOS-Base.repoÎÄ¼şÔòÊÇÏÂÔØ³É¹¦
+	æˆ‘ä»¬å¯ä»¥ç”¨lsæŸ¥çœ‹æ˜¯å¦ä¸‹è½½åˆ°äº†æŒ‡å®šçš„ç›®å½•ä¸‹
+	ls /etc/yum.repos.d/ #æˆ‘ä»¬çœ‹åˆ°CentOS-Base.repoæ–‡ä»¶åˆ™æ˜¯ä¸‹è½½æˆåŠŸ
 
-topic-03:¸üĞÂcache
+topic-03:æ›´æ–°cache
 	yum makecache
 
-topic-04:¸üĞÂyum²Ö¿â
+topic-04:æ›´æ–°yumä»“åº“
 	yum -y update
 
-ÖÁ´Ë£¬±¾µØµÄyum²Ö¿âÅäÖÃÍê³É£¬linuxÊÇ²»ÊÇºÜ¼òµ¥£¬¸Ï¿ìÊÔÒ»ÏÂ°É£¡
+è‡³æ­¤ï¼Œæœ¬åœ°çš„yumä»“åº“é…ç½®å®Œæˆï¼Œlinuxæ˜¯ä¸æ˜¯å¾ˆç®€å•ï¼Œèµ¶å¿«è¯•ä¸€ä¸‹å§ï¼
 

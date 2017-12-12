@@ -1,0 +1,76 @@
+topic-01:首先我们创建几个文件夹(在/usr目录下)，linux中的/usr目录相当于windows中的Program Files目录，里面放一些安装的软件
+	a.创建文件夹
+		mkdir -p /usr/developer/mysql	    #用来放mysql的一些文件
+		mkdir -p /usr/developer/apache/tomcat  #用来放tomcat的文件
+		mkdir -p /usr/developer/java	    #用来放jdk
+	
+	b.查看自己是否已经安装了mysql
+		rpm -qa | grep mysql
+		或者用
+		yum list installed | grep mysql 进行查看是否安装mysql
+
+		*如果已经安装需要对其进行卸载
+
+		卸载过程：
+		卸载有两种方式，一种是普通删除，一种是强力删除，当mysql数据库有其依赖时，进行强力删除
+		rpm -e mysql 和 rpm -e --nodeps mysql
+
+	c.开始安装mysql
+		*进入刚才创建的mysql目录
+		cd /usr/developer/mysql
+		
+		*下载mysql5.7的yum源，
+		wget http://repo.mysql.com/mysql57-community-release-el7-8.noarch.rpm
+
+		*安装mysql的rpm包
+		rpm -ivh mysql157-community-release-el7-8.noarch.rpm
+
+		*看一下是否安装成功
+		ls /etc/yum.repos.d #如果看到mysql-community.repo 和mysql-community-source.repo说明安装成功了
+
+		*接下来我们利用yum来正式安装mysql(无值守自动安装)
+		yum -y install mysql-server
+
+		*我们输入mysql -u root -p，发现密码不正确，于是我们需要重启一下mysql服务
+		systemctl restart mysqld ,然后输入mysql -u root -p发现还是现实密码错误，于是我们就去破解mysql的密码了
+
+		*破解mysql的密码
+		①： vi /etc/my.cnf #编辑mysql的配置文件，按键盘的i，进行输入在末尾加上skip-grant-tables 保存按esc 然后输入:wq!
+			重启mysql服务，systemctl restart mysqld
+		
+		②： 输入命令mysql ，直接进入mysql中
+		mysql> show databases;
+		
+		mysql> use mysql;
+		更新root用户的密码
+		mysql> update mysql.user set authentication_string=password('密码') where user='root';
+		
+		刷新权限，使修改的密码生效
+		
+		##很重要的一步
+		再次 vi /etc/my.cnf #把刚才的跳过密码验证干掉，
+			重启mysql服务 systemctl resatrt mysqld
+
+		使用新密码登录mysql发现能登录进去，
+
+		*使用mysql命令却发现需要重新设置密码，那我们就来重新设置密码，
+		mysql> set password=password('new password');
+		
+		这里的密码需要设置的复杂一些，不然有报错，那我们还是想设置简单密码，怎么办呢，
+		mysql> set global validate_password_policy=0; #这句话意思就是设置mysql验证参数的值为0
+		此时验证的就只是密码的长度了，
+		mysql> select @@validate_password_length; #查询mysql密码验证的长度,设置的密码只要长度大于它就可以了
+		
+		接着操作
+		mysql> alter user ‘root‘@‘localhost‘ PASSWORD EXPIRE NEVER;
+		刷新权限
+		mysql> flush privileges;
+		退出，用新的密码登陆
+
+		
+		**注意：新版的mysql5.7中的mysql.user表中已经没有了password字段而是改为了authentication_string字段，
+		*如果你想设置mysql外网可以访问到，设置如下
+		#使外网可连接到mysql
+		mysql> grant all privileges on *.* to 'root'@'%' identified by '密码' with grant option;
+
+至此mysql的所有配置已经完成,
