@@ -1,0 +1,46 @@
+工欲善其事，必先利其器。特别是作为一个开发者而言，Virtualbox虚拟机中的黑窗口不是很好用，
+这里推荐一款工具MobaXterm(下载个人版，完全免费)，贴上官网下载地址https://mobaxterm.mobatek.net/download.html
+topic-01：jdk1.8的安装与配置
+	a.我们选择虚拟机，点击设置，选择网络的连接方式为“仅主机(Host-Only)网络”,此时虚拟机是无法联网状态，只能与宿主机相连，
+		我们输入命令ifconfig 查看此时虚拟机的ip地址，
+	
+	b.我们打开刚才下载的MobaXterm工具，点击Session,选择SSH,输入ip地址连接虚拟机
+	
+	c.去oracle官网下载jdk，贴上地址http://www.oracle.com/technetwork/java/javase/downloads/jdk8-downloads-2133151.html
+		我们下载Linux X64的压缩包jdk-8u151-linux-x64.tar.gz
+
+	d.我们使用工具Filezilla进行上传jdk，贴上下载地址https://filezilla-project.org/download.php?type=client
+		打开Filezilla工具,将下好的jdk上传到linux虚拟机中的/usr/developer/java 目录下(具体教程请自行百度，这里不再赘述)
+	
+	e.进入java目录 cd /usr/developer/java
+		解压压缩包 tar -zxvf jdk-8u151-linux-x64.tar.gz
+		
+	f.配置jdk环境变量,
+	输入编辑命令 vi /etc/profile 按字母i，在“unset”之前插入如下内容
+		JAVA_HOME=/usr/developer/java/jdk1.8.0_151 #这里的路径是刚才解压jdk的tar包的路径
+		export PATH=$PATH:$JAVA_HOME/bin:
+	执行代码 :
+	source /etc/profile #使刚才的配置生效
+	echo $PATH   #输入命令查看PATH环境变量中是否有配置的jdk路径
+	如果看到有jdk路径，比如笔者的显示的是：/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/root/bin:/usr/developer/java/jdk1.8.0_151/bin:
+		就说明jdk配置成功，我们输入命令 java -version 显示出jdk版本，说明的确是配置成功了
+	
+topic-02:tomcat8.5的配置
+	a.下载tomcat8.5，下载地址https://tomcat.apache.org/download-80.cgi
+		我们下载8.5.24 Core目录下的tar.gz
+
+	b.使用Filezilla上传到 /usr/developer/apache/tomcat 目录下，
+	
+	c.进入tomcat目录 cd /usr/developer/apache/tomcat
+	 	ls  #查看是否有刚才上传的tomcat8.5 
+	d.解压 tar -zxvf apache-tomcat-8.5.24.tar.gz
+
+	f.进入tomcat的bin目录 cd/usr/developer/apache/tomcat/apache-tomcat-8.5.24/bin
+	./startup.sh  #启动tomcat 
+	./shutdown.sh #停止tomcat
+	可以去浏览器访问一下，输入ip地址即可
+	*如果你想去掉tomcat中的8080端口，那就作如下操作：
+	*  vi /usr/developer/apache/tomcat/apache-tomcat-8.5.24/conf/server.xml #编辑server.xml配置文件，
+	将其中的8080端口改成80端口，就可以不用输端口号了，
+
+至此基于linux的环境下，javaEE的web服务器搭建完成，
