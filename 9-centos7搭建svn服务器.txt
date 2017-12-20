@@ -1,0 +1,59 @@
+topic-01:安装svn
+	#使用yum安装svn
+	a. yum -y install subversion
+	#检查svn是否安装成功
+	svnserve --version #如果打印出svn版本号，那就是安装成功
+
+	b.创建svn仓库文件夹
+	mkdir -p /svn/repo
+	
+	c.创建一个版本库
+	svnadmin create /svn/repo
+
+topic-02：配置svn
+	cd /svn/repo #进入svn目录中，进行配置
+	ls #可以看到repo文件夹下多了很多文件，
+		进入conf目录（该svn版本库配置文件）
+		authz 文件是权限控制文件
+		passwd 是帐号密码文件
+		svnserve.conf SVN服务配置文件
+
+	e.进入conf目录
+	①: 设置账号密码
+	vi passwd #编辑passwd文件，
+		在[users]下输入：
+		admin=admin #用户admin，密码是admin
+		jack=jack #用户jack，密码jack
+		:wq!  #保存，退出
+
+	②:设置用户权限
+	vi authz #编辑authz文件
+		壹： 在[groups]下创建一个组
+		贰： developer=admin,jack
+		叁： 在#[/foo/bar]下输入如下内容
+			[/]
+			develop=rw  #表示developer具有读和写的权限
+		肆： 输入:wq! 保存,退出
+
+	③：修改svnserve.conf文件
+	vi svnserve.conf
+	打开下面的几个注释：
+	anon-access = read #匿名用户可读
+	auth-access = write #授权用户可写
+	password-db = passwd #使用哪个文件作为账号文件
+	authz-db = authz #使用哪个文件作为权限文件
+	realm = /svn/repo # 认证空间名，版本库所在目录
+
+topic-03:启动svn版本库
+	svnserve -d -r /svn/repo
+	
+topic-04:查看是否启动成功
+	netstat -antp | grep svn
+	打印如下信息：
+	tcp        0      0 0.0.0.0:3690            0.0.0.0:*               LISTEN      13259/svnserve
+
+topic-05：打开防火墙，是外网可以访问，svn默认端口是3690
+	centos7 打开防火墙端口
+	sudo firewall-cmd --permanent --add-port=3690/tcp
+	sudo firewall-cmd --reload
+
