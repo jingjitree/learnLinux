@@ -9,7 +9,7 @@ topic-01:先检查centos7是否安装了iptables
 	yum update iptables
 	
 	d.安装iptables-services
-	yum -y install iptables-servers
+	yum -y install iptables-services
 
 	e.停止centos7自带的firewalld服务
 	systemctl stop firewalld
