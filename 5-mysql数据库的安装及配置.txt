@@ -32,11 +32,11 @@ topic-01:首先我们创建几个文件夹(在/usr目录下)，linux中的/usr�
 		yum -y install mysql-server
 
 		*我们输入mysql -u root -p，发现密码不正确，于是我们需要重启一下mysql服务
-		systemctl restart mysqld ,然后输入mysql -u root -p发现还是现实密码错误，于是我们就去破解mysql的密码了
+		systemctl restart mysqld.service ,然后输入mysql -u root -p发现还是现实密码错误，于是我们就去破解mysql的密码了
 
 		*破解mysql的密码
 		①： vi /etc/my.cnf #编辑mysql的配置文件，按键盘的i，进行输入在末尾加上skip-grant-tables 保存按esc 然后输入:wq!
-			重启mysql服务，systemctl restart mysqld
+			重启mysql服务，systemctl restart mysqld.service
 		
 		②： 输入命令mysql ，直接进入mysql中
 		mysql> show databases;
@@ -45,11 +45,11 @@ topic-01:首先我们创建几个文件夹(在/usr目录下)，linux中的/usr�
 		更新root用户的密码
 		mysql> update mysql.user set authentication_string=password('密码') where user='root';
 		
-		刷新权限，使修改的密码生效
+		mysql> flush privileges; #刷新权限，使修改的密码生效
 		
 		##很重要的一步
 		再次 vi /etc/my.cnf #把刚才的跳过密码验证干掉，
-			重启mysql服务 systemctl resatrt mysqld
+			重启mysql服务 systemctl resatrt mysqld.service
 
 		使用新密码登录mysql发现能登录进去，
 
