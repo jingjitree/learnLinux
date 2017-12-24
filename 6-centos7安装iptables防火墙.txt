@@ -1,5 +1,5 @@
 topic-01:先检查centos7是否安装了iptables
-	a.  server iptables status #检查是否安装了iptables
+	a. systemctl status iptables.service #检查是否安装了iptables
 	发现并没有安装，
 	
 	b.安装iptables
