@@ -1,0 +1,46 @@
+topic-01:ps命令
+	#ps命令能显示当前运行中的进程的相关信息，包括进程的PID
+	ps aux | less
+	
+	#可以带参数
+	-A :显示所有的进程
+	-a :显示终端中包括其他用户的的所有进程
+	-x :显示无控制终端的进程
+	#如果想退出，按q即可
+
+	#查看系统中每个进程
+	ps -A
+	ps -e
+
+	#查看非root运行的进程
+	ps -u vivek
+
+topic-02:top命令
+	#top命令提供了运行中系统的动态实时视图，
+	top
+	#想退出按q，帮助按h
+topic-03：pstree命令
+	#pstree命令以树状显示正在运行的进程，如果指定了用户名，进程将以用户所拥有的进程为根节点
+	pstree 
+
+	如果报错，则说明没有安装pstree命令
+	#使用yum安装
+	yum -y install psmisc
+
+
+topic-04:查找进程
+	pgrep命令能查找当前正在运行的进程并列出符合条件的进程id
+	pgrep mysqd #查找mysql的进程id
+
+topic-05:htop和atop
+	#htop是一个类似于top的交互式进程查看工具，
+
+	安装htop
+	yum -y install htop
+	htop #将展示所有的进程信息
+
+	#atop工具
+	atop是一个用来查看linux系统负载的交互式监控工具，它能展现系统层级的关键硬件资源
+	
+	#安装atop
+	yum -y install atop
