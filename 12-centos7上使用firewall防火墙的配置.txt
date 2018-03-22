@@ -1,0 +1,39 @@
+firewalld防火墙是centos7系统自带的防火墙
+topic-01:firewalld防火墙的配置目录是在
+	a. /usr/lib/firewalld/services #该目录下是配置防火墙的配置目录，可通过ls看到里面的一些内容
+	b. /etc/firewalld #用户的配置目录
+	里面的firewalld.conf是firewalld的配置文件，
+
+topic-02：添加自定义端口
+	首先我们可以查看它默认配置有哪些端口
+	cd /etc/firewalld/zones
+	cat public.xml #内容如下：
+		<?xml version="1.0" encoding="utf-8"?>
+		<zone>
+		  <short>Public</short>
+		  <description>For use in public areas. You do not trust the other computers on networks to not harm your computer. Only selected incoming connections are accepted.</description>
+		  <service name="ssh"/>
+		  <service name="dhcpv6-client"/>
+		  <port protocol="tcp" port="8080"/>
+		  <port protocol="tcp" port="80"/>
+		  <port protocol="tcp" port="3306"/>
+		</zone>
+	我们有两种方式来添加端口，
+	a.第一种是直接在<zone></zone>中添加<port protocol="tcp" port="3306"/>
+	b.第二种是利用命令
+	firewall-cmd --permanent --add-port=9527/tcp
+		参数介绍：
+		1、firewall-cmd：是Linux提供的操作firewall的一个工具；
+		2、--permanent：表示设置为持久；
+		3、--add-port：标识添加的端口；
+
+
+	我们再来看是否添加成功，cat /etc/firewalld/zones/public.xml
+topic-03:firewalld常用命令
+	1. systemctl restart firewalld.service #重启
+	2. systemctl stop firewalld.service    #停止
+	3. sysyemctl start firewalld.service   #开启
+	4. systemctl status firewalld   #查看firewalld服务状态
+	5. firewall-cmd --status #查看firewall的状态
+	6. firewall-cmd --list-all #查看防火墙规则
+
