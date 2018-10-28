@@ -1,0 +1,47 @@
+需求：mysql默认数据存放的路径是/var/lib/mysql，我们要进行更改成/data/developer/mysql
+由于系统为/目录分给的空间有限，我们将其改至空间更大的分区下，存放数据更多
+01:停止mysql服务
+	mysqladmin -u root -p shutdown
+
+02:移动mysql原先的文件
+	mv /var/lib/mysql　/data/developer/
+	
+03:设置/data/developer/mysql下mysql文件夹的属主和权限
+	chown -R mysql:mysql /data/developer/mysql
+
+04:修改/etc/my.cnf文件
+	vim /etc/my.cnf
+	
+	[mysqld]
+	datadir=/data/developer/mysql
+	socket=/data/developer/mysql/mysql.sock
+
+05:重启mysql服务
+	systemctl start mysqld.service
+	
+	启动报错:
+	Job for mysqld.service failed because the control process exited with error code. See "systemctl status mysqld.service" and "journalctl -xe" for details.
+
+06:设置一个SELinux即可
+	setenforce 0
+	再行重启，启动成功
+	
+	netstat -ntlp #查看当前有哪些服务已开启了，可以看到mysql
+07：连接mysql
+
+	mysql -uroot -p
+	输入密码后报错如下：
+	ERROR 2002 (HY000): Can't connect to local MySQL server through socket '/var/lib/mysql/mysql.sock' (2)
+
+08:添加软连接
+	a. find / -name mysql.sock #查找mysql.sock文件
+	执行结果：
+	/data/developer/mysql/mysql.sock
+	
+	b. 添加软连接
+	ln -s /data/developer/mysql/mysql.sock /var/lib/mysql/mysql.sock
+	
+	ls /var/lib/mysql
+	可以看到该目录下已生成mysql.sock文件
+
+09：再次连接mysql，连接成功，至此配置修改数据目录成功
