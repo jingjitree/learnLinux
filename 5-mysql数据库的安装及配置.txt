@@ -5,10 +5,14 @@ topic-01:首先我们创建几个文件夹(在/usr目录下)，linux中的/usr�
 		mkdir -p /usr/developer/java	    #用来放jdk
 	
 	b.查看自己是否已经安装了mysql
-		rpm -qa | grep mysql
-		或者用
 		yum list installed | grep mysql 进行查看是否安装mysql
+		yum remove  mysql mysql-server mysql-libs mysql-server;
 
+		find / -name mysql 将找到的相关东西delete掉；
+
+		rpm -qa|grep mysql(查询出来的东东yum remove掉)
+		
+		
 		*如果已经安装需要对其进行卸载
 
 		卸载过程：
