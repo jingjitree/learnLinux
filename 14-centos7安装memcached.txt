@@ -1,0 +1,81 @@
+topic-01:libevent下载:
+	新版本:libevent-2.0.22-stable.tar.gz。
+	官网:http://www.monkey.org/~provos/libevent/
+
+topic-02:memcached下载:
+
+	wget http://www.memcached.org/files/memcached-1.5.12.tar.gz
+
+topic-03:解压
+	tar -zxvf libevent-2.1.8-stable.tar.gz
+	tar -zxvf memcached-1.5.12.tar.gz
+
+
+topic-04. 安装gcc
+	yum -y install gcc
+
+	b. 设置libevent安装路径
+	#先进到libevent的解压目录
+	cd /data/developer/memcache/libevent-2.1.8-stable/
+	./configure -prefix=/usr
+
+	c.编译安装
+	make 
+	make install
+
+	d.测试是否安装成功
+	ls -al /usr/lib | grep libevent
+
+topic-05:安装memcached
+	a.进到memcached解压目录下
+	cd /data/developer/memcache/memcached-1.5.12/
+
+	b.需要指定libevent的安装位置（与安装libevent位置保持一致）
+	./configure -with-libevent=/usr
+	
+	c.编译
+	make
+
+	d.安装
+	make install
+	
+	e.看是否安装成功
+	[root@localhost memcached-1.5.12]# ls -al /usr/local/bin/memcached
+	打印信息如下，则是成功
+	-rwxr-xr-x. 1 root root 607504 Nov 13 10:00 /usr/local/bin/memcached
+
+topic-06.启动memcached服务
+
+	命令如下
+	/usr/local/bin/memcached -d -m 10 -u root -l 0.0.0.0 -p 11211 -c 256 -P /tmp/memcached.pid
+
+启动参数：
+
+-d选项是启动一个守护进程
+
+-m是分配给Memcache使用的内存数量，单位是MB，我这里是10MB
+
+-u是运行Memcache的用户，我们这里是root
+
+-l是监听的服务器IP地址，如果有多个地址的话，我们这里指定了服务器的IP地址121.52.217.113
+
+-p(小写字母)是设置Memcache监听的端口，我们这里设置11211默认端口，最好是1024以上的端口
+
+-c选项是最大运行的并发连接数，默认是1024，我们这里设置了256，按照服务器的负载量来设定
+
+-P(大写字母)是设置保存Memcache的pid文件，我们这里是保存在 /tmp/memcached.pid
+
+	查看是否启动成功
+	netstat -ntlp
+	打印如下：
+tcp        0      0 0.0.0.0:11211           0.0.0.0:*               LISTEN      10643/memcached
+	启动成功
+
+	2.查看启动进程
+	ps -ef|grep memcached
+	
+
+
+
+
+
