@@ -1,0 +1,57 @@
+topic-01:安装svn服务器
+	yum -y install subversion
+
+topic-02:创建svn版本库
+	mkdir -p /data/developer/svn
+	svnadmin create /data/developer/svn
+	
+topic-03:配置svn
+	cd /data/developer/svn
+
+	1.设置用户密码
+	vim /data/developer/svn/conf/passwd
+
+	[users]
+	# harry = harryssecret
+	# sally = sallyssecret
+	admin = Admin123
+	root = root123
+
+	2.配置权限配置文件authz
+	vim /data/developer/svn/conf/authz
+	[groups]
+	#用户组
+	admin = admin,root,test
+	#用户组所对应的用户
+	[/]
+	#库目录权限
+	@admin = rw         
+	#用户组权限
+	
+	3.配置svn服务综合配置文件svnserver.conf
+	vim /data/developer/svn/conf/svnserver.conf
+
+	[general]
+	#匿名访问的权限，可以是read,write,none,默认为read
+	anon-access=none
+	#使授权用户有写权限
+	auth-access=write
+	#使用哪个文件作为账号文件
+	password-db=passwd
+	#使用哪个文件作为权限文件
+	authz-db=authz
+	#认证命名空间，subversion会在认证提示里显示，并且作为凭证缓存的关键字
+	realm=/data/developer/svn
+
+topic-04.启动svn服务器
+	svnserver -d -r /data/developer/svn
+
+
+topic-05.开放防火墙3690端口
+	
+	firewall-cmd --zone=public --add-port=3690/tcp --permanent
+	firewall-cmd --zone=public --add-port=3690/udp --permanent
+
+	firewall-cmd --reload #重启firewalld防火墙
+	firewall-cmd --list-all #查看以开放的端口
+
