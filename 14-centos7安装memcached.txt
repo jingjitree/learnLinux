@@ -48,7 +48,7 @@ topic-06.启动memcached服务
 
 	命令如下
 	/usr/local/bin/memcached -d -m 10 -u root -l 0.0.0.0 -p 11211 -c 256 -P /tmp/memcached.pid
-
+	/usr/local/bin/memcached -d -m 10 -u root -l 127.0.0.1 -p 11211 -c 256 -P /tmp/memcached.pid
 启动参数：
 
 -d选项是启动一个守护进程

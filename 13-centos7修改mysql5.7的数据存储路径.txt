@@ -33,6 +33,13 @@
 	输入密码后报错如下：
 	ERROR 2002 (HY000): Can't connect to local MySQL server through socket '/var/lib/mysql/mysql.sock' (2)
 
+	第二种情况：
+	ERROR 1045 (28000): Access denied for user 'root'@'localhost' (using password: NO)
+	没有root权限
+	vim /etc/profile
+	加入 export RUN_AS_USER=root
+
+	
 08:添加软连接
 	a. find / -name mysql.sock #查找mysql.sock文件
 	执行结果：
